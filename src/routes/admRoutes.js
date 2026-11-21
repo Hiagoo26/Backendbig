@@ -1,15 +1,26 @@
 import { Router } from "express";
-import { login } from "../controllers/admControler.js";
+import { login, cadastrarAdm, listarAdms, atualizarAdmin, excluirAdm } from "../controllers/admControler.js";
 import { verificarToken } from "../middlewares/verificarToken.js";
 
 const router = Router();
 
-router.post("/login", login);
-router.get("/teste-token", verificarToken, (req, res) => {
+//get
+router.get("/listar", verificarToken, listarAdms);
+router.get("/token", verificarToken, (req, res) => {
     return res.status(200).json({
-        mensagem: "Token válido! Administrador autenticado.",
-        admin: req.admin
+        mensagem: "Token válido!",
+        admin: req.adm
     });
 });
 
-export default router
+//post
+router.post("/login", login);
+router.post("/cadastrar", verificarToken, cadastrarAdm);
+
+//put
+router.put("/:id", verificarToken, atualizarAdmin);
+
+
+//delete
+router.delete("/:id", verificarToken, excluirAdm);
+export default router;

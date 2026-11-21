@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 
+
 export function verificarToken(req, res, next) {
     const cabecalho = req.headers.authorization;
 
     const token = cabecalho?.split(" ")[1];
-
+    
     if(!token) {
         return res.status(401).json({
             mensagem: "Token não fornecido."
@@ -16,7 +17,7 @@ export function verificarToken(req, res, next) {
             token, process.env.JWT_SECRET
         );
 
-        req.admin = dadosAdm;
+        req.adm = dadosAdm;
 
         next();
 
